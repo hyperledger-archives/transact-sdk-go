@@ -26,6 +26,8 @@ type ISabrePayloadBuilder interface {
 	GetContractName() string
 	GetContractVersion() string
 	GetContract() []byte
+	GetInputs() []string
+	GetOutputs() []string
 	GetExecuteContractPaylod() []byte
 	GetOwners() []string
 	GetNamespace() string
@@ -76,6 +78,16 @@ func (s *SabrePayloadBuilder) GetAction() sabre_pb2.SabrePayload_Action { return
 func (s *SabrePayloadBuilder) GetContractName() string                  { return s.contractName }
 func (s *SabrePayloadBuilder) GetContractVersion() string               { return s.contractVersion }
 func (s *SabrePayloadBuilder) GetContract() []byte                      { return s.contract }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+func (s *SabrePayloadBuilder) GetInputs() []string                      { return s.inputs }
+func (s *SabrePayloadBuilder) GetOutputs() []string                     { return s.outputs }
+>>>>>>> cea6b42... Make inputs and outputs slices of strings
+=======
+func (s *SabrePayloadBuilder) GetInputs() []byte                        { return s.inputs }
+func (s *SabrePayloadBuilder) GetOutputs() []byte                       { return s.outputs }
+>>>>>>> 3627948... Use sabre inputs instead of transaction inputs
 func (s *SabrePayloadBuilder) GetExecuteContractPaylod() []byte         { return s.executeContractPayload }
 func (s *SabrePayloadBuilder) GetOwners() []string                      { return s.owners }
 func (s *SabrePayloadBuilder) GetNamespace() string                     { return s.namespace }

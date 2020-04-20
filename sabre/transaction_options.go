@@ -35,7 +35,8 @@ func WithPayloadBuilder(p ISabrePayloadBuilder) SabreTransactionOption {
 	}
 }
 
-// WithTransactionBuilder provides the option for setting the ITransactionBuilder for a Sabre Transaction
+// WithTransactionBuilder provides the option for setting the
+// ITransactionBuilder for a Sabre Transaction
 func WithTransactionBuilder(t transactions.ITransactionBuilder) SabreTransactionOption {
 	return func(s *SabreTransactionBuilder) error {
 		s.setTransactionBuilder(t)
