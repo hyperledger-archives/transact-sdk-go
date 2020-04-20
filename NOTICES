@@ -1,0 +1,31 @@
+This repository uses the following third party software licensed under the
+Apache 2.0 license, a copy of which can be found:
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+=> transactions/signing/core.go
+=> transactions/signing/pem_loader.go
+=> transactions/signing/secp256k1.go
+=> transactions/signing/secp2561_test.go
+=> c/c11_support.c
+=> c/c11_support.h
+=> c/loader.c
+Copyright 2017 Intel Corporation
+This product includes software developed as part of
+The Hyperledger/sawtooth-sdk-go repository
+(https://github.com/hyperledger/sawtooth-sdk-go).
+
+--------------------------------------------------------------------------------
+
+=> protos/batch.proto
+=> protos/transaction.proto
+Copyright 2016 Intel Corporation
+This product includes software developed as part of
+The Hyperledger/Transact repository (https://github.com/hyperledger/transact).
+
+--------------------------------------------------------------------------------
+
+=> protos/sabre_payload.proto
+Copyright 2018 Cargill Incorporated
+This product includes software developed as part of
+The Cargill/splinter repository (https://github.com/Cargill/splinter).
