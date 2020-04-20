@@ -1,0 +1,75 @@
+// Copyright 2020 txross
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// -----------------------------------------------------------------------------
+
+package errors
+
+import (
+	"fmt"
+)
+
+// --- Missing Field ---
+
+// NewMissingFieldError returns a new MissingFieldError provided
+// the field name {string}
+func NewMissingFieldError(field string) MissingFieldError {
+	return MissingFieldError{field}
+}
+
+// MissingFieldError is the error for a missing field
+type MissingFieldError struct {
+	field string
+}
+
+// Error returns the error {string} for a MissingFieldError
+func (m MissingFieldError) Error() string {
+	return fmt.Sprintf("missing field name: %s", m.field)
+}
+
+// --- InvalidAction ---
+
+// NewInvalidActionError returns a new InvalidAction provided
+// the field name {string}
+func NewInvalidActionError(action string, expected []string) InvalidAction {
+	return InvalidAction{action, expected}
+}
+
+// InvalidAction is the error for an invalid action for a SabrePayload
+type InvalidAction struct {
+	action   string
+	expected []string
+}
+
+// Error returns the error {string} for a InvalidAction
+func (m InvalidAction) Error() string {
+	return fmt.Sprintf("invalid action: %s; expected one of %v", m.action, m.expected)
+}
+
+// -- Protobuf Marshalling --
+
+// NewProtobufEncodingError returns a new ProtobufEncodingError provided
+// the error from proto library
+func NewProtobufEncodingError(err error) ProtobufEncodingError {
+	return ProtobufEncodingError{err: err.Error()}
+}
+
+// ProtobufEncodingError is the error for when a protobuf fails encoding
+type ProtobufEncodingError struct {
+	err string
+}
+
+// Error returns the error {string} for a ProtobufEncodingError
+func (p ProtobufEncodingError) Error() string {
+	return fmt.Sprintf("protobuf encoding error: %s", p.err)
+}
