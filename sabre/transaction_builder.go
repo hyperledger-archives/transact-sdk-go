@@ -20,6 +20,7 @@ import (
 
 	"github.com/hyperledger/transact-sdk-go/crypto"
 	"github.com/hyperledger/transact-sdk-go/errors"
+	"github.com/hyperledger/transact-sdk-go/sabre/addressing"
 	"github.com/hyperledger/transact-sdk-go/src/protobuf/transaction_pb2"
 	"github.com/hyperledger/transact-sdk-go/transactions"
 	"github.com/hyperledger/transact-sdk-go/transactions/signing"
@@ -81,25 +82,28 @@ func (s *SabreTransactionBuilder) Build(signer *signing.Signer) (*transaction_pb
 		return nil, err
 	}
 
-	signingKey := s.transactionBuilder.GetBatcherPublicKey()
-	if signingKey == nil {
-		signingKey = signer.GetPublicKey()
-	}
+	signingKey := signer.GetPublicKey()
 
 	payloadBytes, err := proto.Marshal(sabrePayload)
 	if err != nil {
 		return nil, errors.NewProtobufEncodingError(err)
 	}
 
+	contract := Contract{
+		s.payloadBuilder.GetContractName(),
+		s.payloadBuilder.GetContractVersion(),
+	}
+
 	header := &transaction_pb2.TransactionHeader{
-		FamilyName:      SabreFamilyName,
-		FamilyVersion:   SabreFamilyVersion,
-		Inputs:          s.transactionBuilder.GetInputs(),
-		Outputs:         s.transactionBuilder.GetOutputs(),
-		SignerPublicKey: signingKey.AsHex(),
-		Dependencies:    s.transactionBuilder.GetDependencies(),
-		Nonce:           s.transactionBuilder.GetNonce(),
-		PayloadSha512:   crypto.NewSha512Hash(payloadBytes),
+		FamilyName:       SabreFamilyName,
+		FamilyVersion:    SabreFamilyVersion,
+		Inputs:           prepareSabreInputs(s.payloadBuilder.GetInputs(), contract),
+		Outputs:          s.payloadBuilder.GetOutputs(),
+		SignerPublicKey:  signingKey.AsHex(),
+		BatcherPublicKey: signingKey.AsHex(),
+		Dependencies:     s.transactionBuilder.GetDependencies(),
+		Nonce:            s.transactionBuilder.GetNonce(),
+		PayloadSha512:    crypto.NewSha512Hash(payloadBytes),
 	}
 
 	headerBytes, err := proto.Marshal(header)
@@ -114,4 +118,15 @@ func (s *SabreTransactionBuilder) Build(signer *signing.Signer) (*transaction_pb
 		HeaderSignature: headerSignature,
 		Payload:         payloadBytes,
 	}, nil
+}
+
+func prepareSabreInputs(contractAddresses []string,
+	contract Contract) []string {
+	return []string{
+		addressing.ComputeContractRegistryAddress(contract.Name),
+		addressing.ComputeContractAddress(contract.Name, contract.Version),
+		addressing.CalculateNamespaceRegistryAddress(
+			addressing.ComputeContractPrefix(contract.Name),
+		),
+	}
 }

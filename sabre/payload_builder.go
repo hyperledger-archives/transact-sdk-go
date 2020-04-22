@@ -26,6 +26,8 @@ type ISabrePayloadBuilder interface {
 	GetContractName() string
 	GetContractVersion() string
 	GetContract() []byte
+	GetInputs() []string
+	GetOutputs() []string
 	GetExecuteContractPaylod() []byte
 	GetOwners() []string
 	GetNamespace() string
@@ -76,6 +78,8 @@ func (s *SabrePayloadBuilder) GetAction() sabre_pb2.SabrePayload_Action { return
 func (s *SabrePayloadBuilder) GetContractName() string                  { return s.contractName }
 func (s *SabrePayloadBuilder) GetContractVersion() string               { return s.contractVersion }
 func (s *SabrePayloadBuilder) GetContract() []byte                      { return s.contract }
+func (s *SabrePayloadBuilder) GetInputs() []byte                        { return s.inputs }
+func (s *SabrePayloadBuilder) GetOutputs() []byte                       { return s.outputs }
 func (s *SabrePayloadBuilder) GetExecuteContractPaylod() []byte         { return s.executeContractPayload }
 func (s *SabrePayloadBuilder) GetOwners() []string                      { return s.owners }
 func (s *SabrePayloadBuilder) GetNamespace() string                     { return s.namespace }
