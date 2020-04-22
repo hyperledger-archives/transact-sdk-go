@@ -16,6 +16,8 @@
 package sabre
 
 import (
+	"encoding/hex"
+
 	"github.com/golang/protobuf/proto"
 
 	"github.com/hyperledger/transact-sdk-go/crypto"
@@ -111,7 +113,7 @@ func (s *SabreTransactionBuilder) Build(signer *signing.Signer) (*transaction_pb
 		return nil, errors.NewProtobufEncodingError(err)
 	}
 
-	headerSignature := signer.Sign(headerBytes)
+	headerSignature := hex.EncodeToString(signer.Sign(headerBytes))
 
 	return &transaction_pb2.Transaction{
 		Header:          headerBytes,

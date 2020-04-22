@@ -16,6 +16,8 @@
 package transactions
 
 import (
+	"encoding/hex"
+
 	"github.com/golang/protobuf/proto"
 
 	"github.com/hyperledger/transact-sdk-go/crypto"
@@ -135,7 +137,7 @@ func (t *TransactionBuilder) Build(signer *signing.Signer) (*transaction_pb2.Tra
 		return nil, err
 	}
 
-	headerSignature := signer.Sign(header)
+	headerSignature := hex.EncodeToString(signer.Sign(header))
 
 	return &transaction_pb2.Transaction{
 		Header:          header,

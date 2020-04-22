@@ -16,6 +16,8 @@
 package transactions
 
 import (
+	"encoding/hex"
+
 	"github.com/golang/protobuf/proto"
 
 	"github.com/hyperledger/transact-sdk-go/errors"
@@ -93,7 +95,7 @@ func (b *BatchBuilder) Build(signer *signing.Signer) ([]byte, error) {
 		return nil, err
 	}
 
-	headerSignature := signer.Sign(header)
+	headerSignature := hex.EncodeToString(signer.Sign(header))
 	batch := &transaction_pb2.Batch{
 		Header:          header,
 		HeaderSignature: headerSignature,
