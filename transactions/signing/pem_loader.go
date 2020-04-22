@@ -1,5 +1,6 @@
 /**
  * Copyright 2017 Intel Corporation
+ * Copyright 2020 Tyson Foods, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +19,9 @@
 package signing
 
 // #cgo LDFLAGS: -lcrypto
-// #include "../c/c11_support.h"
-// #include "../c/c11_support.c"
-// #include "../c/loader.c"
+// #include "../../c/c11_support.h"
+// #include "../../c/c11_support.c"
+// #include "../../c/loader.c"
 import "C"
 
 import "fmt"
