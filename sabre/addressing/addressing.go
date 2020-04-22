@@ -69,6 +69,14 @@ func ComputeContractPrefix(contractName string) string {
 	return crypto.NewSha512Hash([]byte(contractName))[:6]
 }
 
+// CalculateDeploymentAdddress calculates the state address for a given
+// named deployment of a contract.
+// Returns the address prefix { string } length of 64
+func CalculateDeploymentAdddress(contractName, deploymentName string) string {
+	deploymentAddress := crypto.NewSha512Hash([]byte(deploymentName))[:64]
+	return concat(ComputeContractPrefix(contractName), deploymentAddress)
+}
+
 // concat uses a preallocated copy method for efficient string concatenation
 func concat(s1, s2 string) string {
 	s := make([]byte, len(s1)+len(s2))
