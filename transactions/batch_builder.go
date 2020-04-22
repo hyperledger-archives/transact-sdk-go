@@ -70,8 +70,9 @@ func (b *BatchBuilder) buildHeader(signer *signing.Signer) ([]byte, error) {
 	}
 
 	transactionIds := make([]string, len(b.transactions))
-	for _, txn := range b.transactions {
-		transactionIds = append(transactionIds, txn.GetHeaderSignature())
+
+	for i, txn := range b.transactions {
+		transactionIds[i] = txn.GetHeaderSignature()
 	}
 
 	header := &transaction_pb2.BatchHeader{
@@ -102,6 +103,7 @@ func (b *BatchBuilder) Build(signer *signing.Signer) ([]byte, error) {
 		Transactions:    b.transactions,
 		Trace:           b.trace,
 	}
+
 	batchList := &transaction_pb2.BatchList{
 		Batches: []*transaction_pb2.Batch{
 			batch,
